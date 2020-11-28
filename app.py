@@ -25,6 +25,7 @@ def index():
   tracks = []
 
   # loop over the items in the search result (accessed by results['tracks']['items'])
+  # results is a python dictionary type object
   for track in results['tracks']['items']:
       # append track name to a list
       tracks.append(track['name'])
