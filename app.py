@@ -30,4 +30,4 @@ def index():
       tracks.append(track['name'])
 
   # render the index.html template along with the variables
-  return render_template('index.html', tracks=tracks, artist=artist)
+  return render_template('index.html', num_tracks=number_of_tracks, tracks=tracks, artist=artist)
