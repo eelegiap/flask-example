@@ -2,20 +2,32 @@ from flask import Flask, render_template, request, redirect
 import requests
 import json
 
+# importing the spotipy library and spotipy credentials
+from spotipy.oauth2 import SpotifyClientCredentials
+import spotipy
+
 app = Flask(__name__)
 
+# setting route
 @app.route('/')
 def index():
-  # setting parameters
-  parameters = {
-    'q' : 'pet adoption',
-  }
-  # getting the request
-  response = requests.get("https://api.nytimes.com/svc/search/v2/articlesearch.json?&api-key=oPZX74EhH9FsxNEaWqAfRi7SZ5FAsGL0", params=parameters)
+  # connect to the spotipy API
+  sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id="117b49902060434fb6640e9332867736",
+                                                             client_secret="27eb9a6630c54fecb484f12876eb6ce6"))
+  # set parameters
+  artist = 'Coldplay'
+  number_of_tracks = 10
 
-  return render_template('index.html', response=response.json())
+  # pass into the spotify search
+  results = sp.search(q=artist, limit=number_of_tracks)
 
+  # create variable to pass to html template
+  tracks = []
 
-@app.route('/about')
-def about():
-  return render_template('about.html')
+  # loop over the items in the search result (accessed by results['tracks']['items'])
+  for track in results['tracks']['items']:
+      # append track name to a list
+      tracks.append(track['name'])
+
+  # render the index.html template along with the variables
+  return render_template('index.html', tracks=tracks, artist=artist)
