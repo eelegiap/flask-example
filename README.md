@@ -1,4 +1,4 @@
-### example of flask using api
+### flask example using the spotipy API
 
 ```$ export FLASK_APP=app.py```
 
